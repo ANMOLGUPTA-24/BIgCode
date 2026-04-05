@@ -2,853 +2,317 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ClaimIQ — Insurance Claim Settlement Agent</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:       #0c0f1a;
-  --surface:  #141824;
-  --border:   rgba(255,255,255,0.07);
-  --border2:  rgba(255,255,255,0.12);
-  --text:     #e8eaf0;
-  --muted:    rgba(232,234,240,0.45);
-  --faint:    rgba(232,234,240,0.2);
-  --blue:     #3b82f6;
-  --blue-d:   #1d4ed8;
-  --blue-bg:  rgba(59,130,246,0.1);
-  --blue-bdr: rgba(59,130,246,0.25);
-  --green:    #10b981;
-  --green-bg: rgba(16,185,129,0.1);
-  --green-bdr:rgba(16,185,129,0.25);
-  --red:      #ef4444;
-  --red-bg:   rgba(239,68,68,0.08);
-  --red-bdr:  rgba(239,68,68,0.2);
-  --amber:    #f59e0b;
-  --amber-bg: rgba(245,158,11,0.08);
-  --amber-bdr:rgba(245,158,11,0.2);
-  --radius:   12px;
-  --font:     'DM Sans', sans-serif;
-  --mono:     'DM Mono', monospace;
-  --serif:    'Fraunces', serif;
+:root{
+  --bg:#0f1117;--sf:#181b26;--sf2:#1e2235;
+  --bd:rgba(255,255,255,0.08);--bd2:rgba(255,255,255,0.15);
+  --tx:#dde1ed;--mu:rgba(221,225,237,0.48);--fa:rgba(221,225,237,0.24);
+  --bl:#4f8ef7;--bld:rgba(79,142,247,0.13);--blb:rgba(79,142,247,0.3);
+  --gn:#34d399;--gnd:rgba(52,211,153,0.11);--gnb:rgba(52,211,153,0.28);
+  --rd:#f87171;--rdd:rgba(248,113,113,0.10);--rdb:rgba(248,113,113,0.26);
+  --am:#fbbf24;--amd:rgba(251,191,36,0.10);--amb:rgba(251,191,36,0.26);
+  --r:10px;--rl:14px;
+  --fn:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;
+  --mo:'JetBrains Mono','Fira Code',monospace;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body {
-  height: 100%; background: var(--bg); color: var(--text);
-  font-family: var(--font); font-size: 14px; line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-::-webkit-scrollbar { width: 3px; height: 3px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-
-/* ── Layout ── */
-.app { display: grid; grid-template-rows: 56px 1px 1fr; height: 100vh; overflow: hidden; }
-.divider { background: var(--border); }
-.body { display: grid; grid-template-columns: 340px 1px 1fr; overflow: hidden; }
-.v-divider { background: var(--border); }
-.left { overflow-y: auto; display: flex; flex-direction: column; }
-.right { overflow-y: auto; }
-
-/* ── Nav ── */
-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 28px; background: var(--surface);
-  border-bottom: 1px solid var(--border);
-}
-.nav-brand { display: flex; align-items: center; gap: 10px; }
-.brand-mark {
-  width: 30px; height: 30px; border-radius: 8px;
-  background: linear-gradient(135deg, var(--blue), var(--blue-d));
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--serif); font-size: 15px; color: #fff; font-weight: 300; font-style: italic;
-}
-.brand-name { font-size: 15px; font-weight: 600; letter-spacing: -.3px; }
-.brand-sub  { font-size: 10px; color: var(--faint); margin-top: -1px; }
-.nav-pills  { display: flex; gap: 8px; }
-.pill {
-  font-size: 10px; font-weight: 500; padding: 3px 10px;
-  border-radius: 20px; border: 1px solid var(--border2);
-  color: var(--muted); background: rgba(255,255,255,0.03);
-}
-.pill.active { background: var(--blue-bg); border-color: var(--blue-bdr); color: var(--blue); }
-
-/* ── Left Panel ── */
-.left-header {
-  padding: 20px 20px 12px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-.left-header h3 {
-  font-size: 11px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 1px; color: var(--faint); margin-bottom: 4px;
-}
-.left-header p { font-size: 12px; color: var(--muted); line-height: 1.5; }
-.bill-list { padding: 12px; flex: 1; }
-.bill-item {
-  padding: 14px; border-radius: var(--radius);
-  border: 1px solid var(--border);
-  margin-bottom: 8px; cursor: pointer;
-  transition: border-color .15s, background .15s;
-  background: rgba(255,255,255,0.02);
-}
-.bill-item:hover { border-color: var(--border2); background: rgba(255,255,255,0.04); }
-.bill-item.active { border-color: var(--blue-bdr); background: var(--blue-bg); }
-.bill-item.active .bi-id { color: var(--blue); }
-.bi-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
-.bi-name { font-size: 13px; font-weight: 500; color: var(--text); }
-.bi-amt  { font-family: var(--mono); font-size: 12px; color: var(--muted); flex-shrink: 0; margin-left: 8px; }
-.bi-diag { font-size: 11px; color: var(--muted); margin-bottom: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.bi-bottom { display: flex; align-items: center; justify-content: space-between; }
-.bi-id { font-family: var(--mono); font-size: 10px; color: var(--faint); }
-.badge {
-  font-size: 9px; font-weight: 600; padding: 2px 8px;
-  border-radius: 20px; letter-spacing: .3px; border: 1px solid;
-}
-.badge-ok  { color: var(--green); background: var(--green-bg); border-color: var(--green-bdr); }
-.badge-rej { color: var(--red);   background: var(--red-bg);   border-color: var(--red-bdr);   }
-.badge-par { color: var(--amber); background: var(--amber-bg); border-color: var(--amber-bdr); }
-.bill-item.active .badge-ok  { box-shadow: 0 0 10px rgba(16,185,129,0.2); }
-.bill-item.active .badge-rej { box-shadow: 0 0 10px rgba(239,68,68,0.15); }
-.bill-item.active .badge-par { box-shadow: 0 0 10px rgba(245,158,11,0.15); }
-
-/* ── Run button ── */
-.run-wrap { padding: 12px; flex-shrink: 0; border-top: 1px solid var(--border); }
-.run-btn {
-  width: 100%; padding: 11px 20px; border-radius: var(--radius);
-  border: none; cursor: pointer; font-family: var(--font);
-  font-size: 13px; font-weight: 600; letter-spacing: -.1px;
-  background: linear-gradient(135deg, var(--blue), var(--blue-d));
-  color: #fff; transition: opacity .15s, transform .1s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.run-btn:hover  { opacity: .9; }
-.run-btn:active { transform: scale(.99); }
-.run-btn:disabled { opacity: .4; cursor: default; transform: none; }
-.run-btn svg { animation: none; }
-.run-btn.running svg { animation: spin .7s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ── Right panel states ── */
-.right-inner { padding: 28px; min-height: 100%; }
-.empty-state {
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: center; min-height: calc(100vh - 57px);
-  text-align: center; gap: 16px;
-}
-.empty-icon {
-  width: 72px; height: 72px; border-radius: 20px;
-  border: 1px solid var(--border2);
-  display: flex; align-items: center; justify-content: center; font-size: 30px;
-}
-.empty-title { font-size: 17px; font-weight: 500; }
-.empty-sub { font-size: 13px; color: var(--muted); max-width: 280px; line-height: 1.65; }
-
-/* ── Pipeline ── */
-.pipeline {
-  display: flex; align-items: center; gap: 0;
-  margin-bottom: 24px; overflow-x: auto; padding-bottom: 2px;
-}
-.pipe-step {
-  display: flex; align-items: center; gap: 6px;
-  padding: 7px 12px; border-radius: 8px;
-  transition: all .25s; flex-shrink: 0;
-}
-.pipe-step.idle   { opacity: .25; }
-.pipe-step.active { background: var(--blue-bg); border: 1px solid var(--blue-bdr); opacity: 1; }
-.pipe-step.done   { background: var(--green-bg); border: 1px solid var(--green-bdr); opacity: 1; }
-.pipe-icon { font-size: 14px; }
-.pipe-label { font-size: 11px; font-weight: 500; }
-.idle   .pipe-label { color: var(--muted); }
-.active .pipe-label { color: var(--blue); }
-.done   .pipe-label { color: var(--green); }
-.pipe-arrow { color: var(--faint); font-size: 12px; padding: 0 4px; flex-shrink: 0; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
-.pipe-step.active .pipe-icon { animation: blink 1s infinite; }
-
-/* ── Decision header ── */
-.decision-top {
-  display: flex; align-items: flex-start; justify-content: space-between;
-  margin-bottom: 20px; gap: 16px;
-}
-.decision-patient { font-size: 20px; font-weight: 500; letter-spacing: -.5px; margin-bottom: 3px; }
-.decision-meta    { font-size: 12px; color: var(--muted); }
-.verdict-badge {
-  font-size: 13px; font-weight: 600; padding: 8px 20px;
-  border-radius: 10px; border: 1px solid; flex-shrink: 0; letter-spacing: .2px;
-}
-.verdict-ok  { color: var(--green); background: var(--green-bg); border-color: var(--green-bdr); }
-.verdict-rej { color: var(--red);   background: var(--red-bg);   border-color: var(--red-bdr);   }
-.verdict-par { color: var(--amber); background: var(--amber-bg); border-color: var(--amber-bdr); }
-
-/* ── Financials ── */
-.fin-row  { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 16px; }
-.fin-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
-.fin-lbl  { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .8px; color: var(--faint); margin-bottom: 6px; }
-.fin-val  { font-family: var(--mono); font-size: 1.25rem; font-weight: 500; letter-spacing: -.5px; }
-.fin-val.green { color: var(--green); }
-.fin-val.red   { color: var(--red); }
-.fin-val.blue  { color: var(--blue); }
-
-/* ── Confidence ── */
-.conf-strip {
-  display: flex; align-items: center; gap: 12px;
-  padding: 10px 14px; background: var(--surface);
-  border: 1px solid var(--border); border-radius: var(--radius);
-  margin-bottom: 16px;
-}
-.conf-lbl   { font-size: 11px; color: var(--muted); min-width: 80px; }
-.conf-track { flex: 1; height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; }
-.conf-fill  { height: 100%; border-radius: 2px; transition: width .6s cubic-bezier(.4,0,.2,1); }
-.conf-pct   { font-family: var(--mono); font-size: 11px; font-weight: 500; min-width: 36px; text-align: right; }
-.conf-note  { font-size: 10px; padding: 2px 7px; border-radius: 6px; }
-.conf-note.review { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-bdr); }
-.conf-note.normal { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bdr); }
-
-/* ── Block banner ── */
-.block-banner {
-  display: flex; gap: 12px; padding: 12px 14px;
-  background: var(--red-bg); border: 1px solid var(--red-bdr);
-  border-radius: var(--radius); margin-bottom: 16px;
-}
-.block-icon { font-size: 16px; flex-shrink: 0; padding-top: 1px; }
-.block-msg  { font-size: 12px; color: #fca5a5; line-height: 1.55; }
-.block-cite { font-size: 10px; color: rgba(252,165,165,.55); margin-top: 3px; }
-
-/* ── Section label ── */
-.sec-lbl {
-  font-size: 10px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 1px; color: var(--faint); margin-bottom: 10px;
-}
-
-/* ── Line items ── */
-.li-wrap  { margin-bottom: 20px; }
-.li-head  {
-  display: grid; grid-template-columns: 1fr 90px 90px 80px;
-  gap: 8px; padding: 0 10px 8px;
-  border-bottom: 1px solid var(--border); margin-bottom: 2px;
-}
-.li-head span { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; color: var(--faint); }
-.li-head span:not(:first-child) { text-align: right; }
-.li-row {
-  display: grid; grid-template-columns: 1fr 90px 90px 80px;
-  gap: 8px; padding: 10px; border-radius: 8px;
-  border-left: 2px solid transparent; margin-bottom: 1px;
-  transition: background .12s;
-}
-.li-row:hover  { background: rgba(255,255,255,0.025); }
-.li-row.ok  { border-left-color: rgba(16,185,129,.4); }
-.li-row.rej { border-left-color: rgba(239,68,68,.4); }
-.li-row.par { border-left-color: rgba(245,158,11,.4); }
-.li-desc   { font-size: 12px; color: var(--text); }
-.li-reason { font-size: 10px; color: var(--faint); margin-top: 3px; line-height: 1.45; }
-.li-cite   { font-size: 9px; color: rgba(59,130,246,.55); margin-top: 2px; font-style: italic; }
-.li-billed  { font-family: var(--mono); font-size: 11px; color: var(--muted); text-align: right; padding-top: 1px; }
-.li-appr    { font-family: var(--mono); font-size: 11px; font-weight: 500; text-align: right; padding-top: 1px; }
-.li-appr.green { color: var(--green); }
-.li-appr.red   { color: var(--red); }
-.li-appr.amber { color: var(--amber); }
-.li-status { display: flex; justify-content: flex-end; align-items: flex-start; }
-
-/* ── Two-col grid for fraud + citations ── */
-.bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 4px; }
-
-/* ── Fraud ── */
-.fraud-card { border-radius: var(--radius); border: 1px solid; padding: 14px; }
-.fraud-card.low   { background: var(--green-bg); border-color: var(--green-bdr); }
-.fraud-card.medium{ background: var(--amber-bg); border-color: var(--amber-bdr); }
-.fraud-card.high  { background: var(--red-bg);   border-color: var(--red-bdr);   }
-.fraud-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.fraud-title { font-size: 11px; font-weight: 600; color: var(--muted); }
-.fraud-score { font-family: var(--mono); font-size: 12px; font-weight: 500; }
-.fraud-card.low   .fraud-score { color: var(--green); }
-.fraud-card.medium.fraud-score { color: var(--amber); }
-.fraud-card.high  .fraud-score { color: var(--red);   }
-.fraud-card.medium .fraud-score { color: var(--amber); }
-.fraud-card.high   .fraud-score { color: var(--red); }
-.fraud-empty { font-size: 11px; color: var(--faint); }
-.sig-row {
-  display: flex; gap: 8px; align-items: flex-start;
-  padding: 7px 0; border-top: 1px solid rgba(255,255,255,0.06);
-  font-size: 11px; color: var(--muted); line-height: 1.4;
-}
-.sig-tag {
-  font-size: 9px; font-weight: 700; padding: 2px 6px;
-  border-radius: 4px; flex-shrink: 0; margin-top: 1px;
-  text-transform: uppercase; letter-spacing: .3px;
-}
-.sig-tag.high   { background: rgba(239,68,68,.2);    color: var(--red);   }
-.sig-tag.medium { background: rgba(245,158,11,.15);  color: var(--amber); }
-.sig-tag.low    { background: rgba(16,185,129,.12);  color: var(--green); }
-
-/* ── Citations ── */
-.cite-list { }
-.cite-item {
-  display: flex; align-items: flex-start; gap: 8px; padding: 8px 10px;
-  background: var(--blue-bg); border: 1px solid var(--blue-bdr);
-  border-radius: 8px; margin-bottom: 6px;
-  font-size: 11px; color: rgba(147,197,253,.8); line-height: 1.45;
-}
-.cite-n {
-  background: rgba(59,130,246,.2); color: var(--blue);
-  font-size: 9px; font-weight: 700; padding: 2px 6px;
-  border-radius: 4px; flex-shrink: 0; margin-top: 1px; font-family: var(--mono);
-}
-
-/* ── Timing ── */
-.timing { font-size: 10px; color: var(--faint); margin-top: 20px; display: flex; align-items: center; gap: 6px; }
-.timing-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
-
-/* ── Notes ── */
-.notes { margin-bottom: 12px; }
-.note-item {
-  font-size: 11px; color: var(--muted); padding: 8px 12px;
-  border-left: 2px solid var(--amber); margin-bottom: 5px;
-  background: var(--amber-bg); border-radius: 0 6px 6px 0;
-  line-height: 1.5;
-}
-
-/* ── Accuracy note ── */
-.accuracy-note {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 10px; color: var(--muted); padding: 4px 10px;
-  border: 1px solid var(--border); border-radius: 20px;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--tx);font-family:var(--fn);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--sf2);border-radius:3px}
+#app{display:flex;flex-direction:column;height:100vh;overflow:hidden}
+nav{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 22px;height:56px;border-bottom:1px solid var(--bd);background:rgba(15,17,23,0.97)}
+.logo{display:flex;align-items:center;gap:10px}
+.lb{width:32px;height:32px;background:var(--bl);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:15px}
+.ln{font-size:16px;font-weight:700;letter-spacing:-.4px}
+.ls{font-size:10px;color:var(--fa);margin-top:-1px}
+.bgs{display:flex;gap:7px}
+.bg{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid}
+.bg-bl{background:var(--bld);border-color:var(--blb);color:var(--bl)}
+.bg-gn{background:var(--gnd);border-color:var(--gnb);color:var(--gn)}
+.bg-am{background:var(--amd);border-color:var(--amb);color:var(--am)}
+#pipe{flex-shrink:0;display:flex;align-items:center;padding:9px 22px;gap:3px;border-bottom:1px solid var(--bd);background:rgba(24,27,38,.7);overflow-x:auto}
+.ps{display:flex;align-items:center;gap:6px;padding:5px 11px;border-radius:7px;flex-shrink:0;opacity:.25;transition:opacity .3s,background .3s}
+.ps.active{opacity:1;background:var(--bld)}.ps.done{opacity:1;background:var(--gnd)}
+.pi{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;background:rgba(255,255,255,.05);flex-shrink:0}
+.ps.active .pi{background:var(--bld);animation:bk 1.1s infinite}.ps.done .pi{background:var(--gnd)}
+@keyframes bk{0%,100%{opacity:1}50%{opacity:.4}}
+.pl{font-size:11px;font-weight:500;color:var(--mu)}.ps.active .pl{color:var(--bl)}.ps.done .pl{color:var(--gn)}
+.pa{font-size:12px;color:var(--fa);padding:0 1px;flex-shrink:0}
+.body{display:flex;flex:1;overflow:hidden}
+.sidebar{width:306px;flex-shrink:0;border-right:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden}
+.sbh{padding:14px 14px 10px;border-bottom:1px solid var(--bd)}
+.sbt{font-size:10px;font-weight:600;color:var(--fa);text-transform:uppercase;letter-spacing:.9px}
+.bl-list{flex:1;overflow-y:auto;padding:8px}
+.bc{padding:12px 13px;border-radius:var(--rl);border:1px solid var(--bd);margin-bottom:5px;cursor:pointer;background:var(--sf);transition:border-color .16s,background .16s,transform .16s;user-select:none}
+.bc:hover{border-color:var(--bd2);background:var(--sf2);transform:translateX(3px)}
+.bc.act{border-color:var(--blb);background:var(--bld)}
+.bc1{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px}
+.bcn{font-size:12px;font-weight:600;color:var(--tx)}
+.bca{font-size:11px;font-weight:600;color:var(--mu);font-family:var(--mo)}
+.bcs{font-size:10px;color:var(--fa);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:7px}
+.bc3{display:flex;align-items:center;justify-content:space-between}
+.bci{font-size:9px;color:var(--fa)}
+.tg{font-size:9px;font-weight:600;padding:2px 7px;border-radius:20px;border:1px solid}
+.tg-gn{background:var(--gnd);border-color:var(--gnb);color:var(--gn)}
+.tg-rd{background:var(--rdd);border-color:var(--rdb);color:var(--rd)}
+.tg-am{background:var(--amd);border-color:var(--amb);color:var(--am)}
+.sbf{padding:10px;border-top:1px solid var(--bd)}
+#rb{width:100%;padding:11px;background:var(--bl);color:#fff;border:none;border-radius:var(--r);font-size:13px;font-weight:600;font-family:var(--fn);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 18px rgba(79,142,247,.28)}
+#rb:hover:not(:disabled){opacity:.9;transform:translateY(-1px)}
+#rb:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.sp{width:14px;height:14px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:sp2 .65s linear infinite;display:none}
+.spinning .sp{display:block}.spinning #bic{display:none}
+@keyframes sp2{to{transform:rotate(360deg)}}
+.main{flex:1;overflow-y:auto;padding:22px 26px}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:68vh;text-align:center;gap:14px}
+.ei{width:68px;height:68px;background:var(--bld);border:1px solid var(--blb);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.et{font-size:17px;font-weight:600;color:var(--tx)}.es{font-size:12px;color:var(--mu);max-width:270px;line-height:1.7}
+.dh{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:14px}
+.dh h2{font-size:19px;font-weight:700;letter-spacing:-.5px;margin-bottom:3px}
+.dh p{font-size:11px;color:var(--mu)}
+.vd{font-size:12px;font-weight:700;padding:8px 18px;border-radius:9px;border:1px solid;white-space:nowrap;flex-shrink:0;letter-spacing:.4px}
+.v-ok{background:var(--gnd);border-color:var(--gnb);color:var(--gn)}
+.v-rj{background:var(--rdd);border-color:var(--rdb);color:var(--rd)}
+.v-pa{background:var(--amd);border-color:var(--amb);color:var(--am)}
+.ca{font-size:11px;color:var(--fa);background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:10px 14px;line-height:1.65;margin-bottom:16px}
+.ca strong{color:var(--mu)}
+.fg{display:grid;gap:8px;margin-bottom:16px}
+.fc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:13px 15px}
+.fl{font-size:9px;font-weight:600;color:var(--fa);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+.fv{font-size:19px;font-weight:700;font-family:var(--mo);letter-spacing:-.5px;color:var(--tx)}
+.fv.g{color:var(--gn)}.fv.r{color:var(--rd)}.fv.b{color:var(--bl)}.fv.a{color:var(--am)}
+.cr{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:12px 15px;display:flex;align-items:center;gap:11px;margin-bottom:16px}
+.cll{font-size:11px;color:var(--fa);min-width:78px}.cn{font-size:9px;color:var(--fa);margin-top:1px}
+.ct{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.cf{height:100%;border-radius:2px;transition:width .7s ease}
+.cp{font-size:13px;font-weight:700;font-family:var(--mo);min-width:40px;text-align:right}
+.ht{font-size:9px;font-weight:600;padding:2px 7px;border-radius:5px;background:var(--amd);border:1px solid var(--amb);color:var(--am);white-space:nowrap}
+.bb{display:flex;gap:11px;align-items:flex-start;background:var(--rdd);border:1px solid var(--rdb);border-radius:var(--r);padding:12px 15px;margin-bottom:16px}
+.bb-tx{font-size:12px;color:var(--rd);line-height:1.55}.bb-ci{font-size:10px;color:rgba(248,113,113,.45);margin-top:3px}
+.nb{display:flex;gap:9px;align-items:flex-start;background:var(--amd);border:1px solid var(--amb);border-radius:var(--r);padding:10px 13px;margin-bottom:10px;font-size:11px;color:var(--am);line-height:1.55}
+.sl{font-size:9px;font-weight:600;color:var(--fa);text-transform:uppercase;letter-spacing:.9px;margin-bottom:9px;margin-top:2px}
+.lit{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;margin-bottom:16px}
+.lih{display:grid;grid-template-columns:1fr 100px 100px 84px;gap:7px;padding:9px 14px;border-bottom:1px solid var(--bd);background:rgba(255,255,255,.015)}
+.lih span{font-size:9px;font-weight:600;color:var(--fa);text-transform:uppercase;letter-spacing:.7px}
+.lih span:not(:first-child){text-align:right}
+.lir{display:grid;grid-template-columns:1fr 100px 100px 84px;gap:7px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.03);border-left:3px solid transparent;transition:background .14s}
+.lir:last-child{border-bottom:none}.lir:hover{background:rgba(255,255,255,.018)}
+.lir.ok{border-left-color:rgba(52,211,153,.32)}.lir.rj{border-left-color:rgba(248,113,113,.32)}.lir.pa{border-left-color:rgba(251,191,36,.32)}
+.ld{font-size:11px;color:var(--tx);line-height:1.4}
+.lr{font-size:10px;color:var(--fa);margin-top:3px;line-height:1.5}
+.lc{font-size:9px;color:rgba(79,142,247,.55);margin-top:2px;font-style:italic}
+.la{font-size:11px;font-family:var(--mo);text-align:right;color:var(--mu);padding-top:1px}
+.lap{font-size:11px;font-family:var(--mo);font-weight:600;text-align:right;padding-top:1px}
+.lap.g{color:var(--gn)}.lap.r{color:var(--rd)}.lap.a{color:var(--am)}
+.ltg{display:flex;justify-content:flex-end;align-items:flex-start}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.fcd{border:1px solid;border-radius:var(--rl);padding:13px 15px}
+.fcd.low{background:var(--gnd);border-color:var(--gnb)}.fcd.medium{background:var(--amd);border-color:var(--amb)}.fcd.high{background:var(--rdd);border-color:var(--rdb)}
+.fhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.ftt{font-size:11px;font-weight:600;color:var(--mu)}
+.fsc{font-size:12px;font-weight:700;font-family:var(--mo)}
+.fcd.low .fsc{color:var(--gn)}.fcd.medium .fsc{color:var(--am)}.fcd.high .fsc{color:var(--rd)}
+.fsi{display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-top:1px solid rgba(255,255,255,.04);font-size:10px;color:var(--mu);line-height:1.45}
+.ss{font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;flex-shrink:0;margin-top:2px}
+.ss.high{background:var(--rdd);color:var(--rd)}.ss.medium{background:var(--amd);color:var(--am)}.ss.low{background:var(--gnd);color:var(--gn)}
+.fn2{font-size:10px;color:var(--fa);padding:4px 0}
+.ci{display:flex;align-items:flex-start;gap:8px;padding:8px 11px;background:var(--bld);border:1px solid var(--blb);border-radius:7px;margin-bottom:4px;font-size:10px;color:rgba(79,142,247,.82);line-height:1.45}
+.cn2{font-size:8px;font-weight:700;background:var(--bld);color:var(--bl);padding:2px 5px;border-radius:3px;flex-shrink:0;margin-top:1px;border:1px solid var(--blb)}
+.tm{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--fa);margin-top:4px}
+.td{width:4px;height:4px;border-radius:50%;background:var(--gn)}
 </style>
 </head>
 <body>
-<div class="app">
-
-<!-- NAV -->
+<div id="app">
 <nav>
-  <div class="nav-brand">
-    <div class="brand-mark">C</div>
-    <div>
-      <div class="brand-name">ClaimIQ</div>
-      <div class="brand-sub">Insurance Claim Settlement Agent</div>
-    </div>
+  <div class="logo">
+    <div class="lb">C</div>
+    <div><div class="ln">ClaimIQ</div><div class="ls">Insurance Claim Settlement Agent &nbsp;·&nbsp; The Big Code 2026</div></div>
   </div>
-  <div class="nav-pills">
-    <span class="pill active">Gemini 2.0 Flash Vision</span>
-    <span class="pill">6/6 ground-truth labels matched</span>
-    <span class="pill">59 automated tests</span>
+  <div class="bgs">
+    <span class="bg bg-bl">Gemini 2.0 Flash Vision</span>
+    <span class="bg bg-gn">6/6 test cases correct</span>
+    <span class="bg bg-am">59 tests passing</span>
   </div>
 </nav>
-<div class="divider"></div>
-
-<!-- BODY -->
+<div id="pipe">
+  <div class="ps" id="ps-0"><div class="pi">📄</div><span class="pl">Bill Input</span></div>
+  <div class="pa">›</div>
+  <div class="ps" id="ps-1"><div class="pi">👁</div><span class="pl">Gemini Vision</span></div>
+  <div class="pa">›</div>
+  <div class="ps" id="ps-2"><div class="pi">📋</div><span class="pl">Policy Index</span></div>
+  <div class="pa">›</div>
+  <div class="ps" id="ps-3"><div class="pi">⚖️</div><span class="pl">Rule Engine</span></div>
+  <div class="pa">›</div>
+  <div class="ps" id="ps-4"><div class="pi">✅</div><span class="pl">Decision</span></div>
+</div>
 <div class="body">
-
-  <!-- LEFT -->
-  <div class="left">
-    <div class="left-header">
-      <h3>Test cases</h3>
-      <p>6 labelled hospital bills covering every decision type. Click a case to load it.</p>
-    </div>
-    <div class="bill-list" id="bill-list"></div>
-    <div class="run-wrap">
-      <button class="run-btn" id="run-btn" disabled onclick="runEngine()">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" id="btn-icon">
-          <path d="M5 3l6 4-6 4V3z" fill="currentColor"/>
-        </svg>
-        <span id="btn-label">Select a case first</span>
+  <div class="sidebar">
+    <div class="sbh"><div class="sbt">Test claims</div></div>
+    <div class="bl-list" id="bl"></div>
+    <div class="sbf">
+      <button id="rb" onclick="run()" disabled>
+        <div class="sp"></div><span id="bic">⚡</span><span id="bt">Select a claim first</span>
       </button>
     </div>
   </div>
-
-  <div class="v-divider"></div>
-
-  <!-- RIGHT -->
-  <div class="right">
-    <div class="right-inner" id="right-content">
-      <div class="empty-state">
-        <div class="empty-icon">⚖️</div>
-        <div class="empty-title">No claim loaded</div>
-        <div class="empty-sub">Select any test case from the left panel to begin adjudication.</div>
-      </div>
-    </div>
+  <div class="main" id="mn">
+    <div class="empty"><div class="ei">⚖️</div><div class="et">Select a claim to begin</div>
+    <div class="es">Choose any of the 6 test cases on the left, then click Run to see the full adjudication with policy citations.</div></div>
   </div>
-
-</div><!-- /body -->
-</div><!-- /app -->
-
+</div>
+</div>
 <script>
-// ─── Data ──────────────────────────────────────────────────────────────────
-var BILLS = [
-  { id:"BILL-2024-001", name:"Acute Appendicitis", patient:"Rahul Sharma", age:35,
-    hospital:"Apollo Hospitals, Hyderabad", pstart:"2022-03-01",
-    admit:"2024-10-15", discharge:"2024-10-18", preauth:true,
-    expected:"APPROVED", total:68300,
-    items:[
-      {d:"Room – General Ward (3 nights @ ₹2,400)",  a:7200,  c:"room_general", days:3},
-      {d:"Surgeon Fees – Laparoscopic Appendectomy", a:25000, c:"44950"},
-      {d:"Anesthesiologist Fees",                    a:8000,  c:"00840"},
-      {d:"Operation Theatre Charges",                a:15000, c:"facility"},
-      {d:"Post-op Medicines & Consumables",          a:5500,  c:"pharmacy"},
-      {d:"Lab Tests – CBC, LFT, RFT",                a:2800,  c:"80048"},
-      {d:"Ultrasound Abdomen",                       a:1800,  c:"76700"},
-      {d:"Nursing Charges",                          a:3000,  c:"nursing"},
-    ]},
-  { id:"BILL-2024-002", name:"Septoplasty + Rhinoplasty", patient:"Priya Mehta", age:28,
-    hospital:"Fortis Hospital, Bangalore", pstart:"2023-01-01",
-    admit:"2024-11-10", discharge:"2024-11-12", preauth:true,
-    expected:"PARTIAL", total:117700,
-    items:[
-      {d:"Room – Private Single Room (2 nights @ ₹7,000)", a:14000, c:"room_private", days:2},
-      {d:"ENT Surgeon Fees – Septoplasty",                 a:30000, c:"30520"},
-      {d:"Rhinoplasty (Cosmetic – Nose Reshaping)",        a:45000, c:"30400"},
-      {d:"Anesthesiologist Fees",                          a:9000,  c:"00160"},
-      {d:"Operation Theatre Charges",                      a:12000, c:"facility"},
-      {d:"Medicines and Consumables",                      a:4200,  c:"pharmacy"},
-      {d:"CT Scan – Paranasal Sinuses",                    a:3500,  c:"70486"},
-    ]},
-  { id:"BILL-2024-003", name:"Dental – Root Canal Treatment", patient:"Arjun Patel", age:42,
-    hospital:"Max Dental & Healthcare, Delhi", pstart:"2023-06-01",
-    admit:"2024-09-05", discharge:"2024-09-05", preauth:false,
-    expected:"REJECTED", total:22000,
-    items:[
-      {d:"Root Canal Treatment – Mandibular Molar", a:12000, c:"D3330"},
-      {d:"Dental Crown – Porcelain Fused Metal",    a:8000,  c:"D2750"},
-      {d:"Dental X-Ray – Panoramic (OPG)",          a:1500,  c:"D0330"},
-      {d:"Consultation Fee",                        a:500,   c:"D0140"},
-    ]},
-  { id:"BILL-2024-004", name:"Pneumonia — Waiting Period", patient:"Sunita Joshi", age:55,
-    hospital:"AIIMS, New Delhi", pstart:"2024-10-01",
-    admit:"2024-10-20", discharge:"2024-10-23", preauth:false,
-    expected:"REJECTED", total:23500,
-    items:[
-      {d:"Room – General Ward (3 nights @ ₹3,000)", a:9000,  c:"room_general", days:3},
-      {d:"Physician Consultation",                  a:3000,  c:"99215"},
-      {d:"IV Antibiotics and Medicines",            a:8500,  c:"pharmacy"},
-      {d:"Chest X-Ray",                             a:800,   c:"71046"},
-      {d:"Blood Culture and CBC",                   a:2200,  c:"87040"},
-    ]},
-  { id:"BILL-2024-005", name:"Total Knee Replacement", patient:"Vikram Singh", age:67,
-    hospital:"Manipal Hospitals, Pune", pstart:"2021-05-01",
-    admit:"2024-08-12", discharge:"2024-08-17", preauth:true,
-    expected:"PARTIAL", total:317000,
-    items:[
-      {d:"Room – Deluxe Private Room (5 nights @ ₹8,000)", a:40000,  c:"room_private", days:5},
-      {d:"Orthopedic Surgeon Fees – Total Knee Replacement",a:85000,  c:"27447"},
-      {d:"Knee Implant (Titanium, Cruciate-Retaining)",     a:120000, c:"implant"},
-      {d:"Anesthesiologist Fees",                           a:15000,  c:"01400"},
-      {d:"Operation Theatre Charges",                       a:25000,  c:"facility"},
-      {d:"ICU Charges (1 day post-op)",                     a:7500,   c:"icu", days:1},
-      {d:"Physiotherapy Sessions (5 sessions)",             a:4000,   c:"97110", days:5},
-      {d:"Medicines and Consumables",                       a:12000,  c:"pharmacy"},
-      {d:"Lab Tests and Pre-op Imaging",                    a:8500,   c:"diagnostics"},
-    ]},
-  { id:"BILL-2024-006", name:"Inguinal Hernia Repair", patient:"Mohan Das", age:48,
-    hospital:"Columbia Asia Hospital, Kolkata", pstart:"2023-09-01",
-    admit:"2024-10-10", discharge:"2024-10-12", preauth:true,
-    expected:"REJECTED", total:68300,
-    items:[
-      {d:"Room – General Ward (2 nights @ ₹2,400)", a:4800,  c:"room_general", days:2},
-      {d:"Surgeon Fees – Laparoscopic Hernia Repair",a:35000, c:"49650"},
-      {d:"Anesthesiologist Fees",                    a:7000,  c:"00832"},
-      {d:"Operation Theatre Charges",                a:10000, c:"facility"},
-      {d:"Mesh Implant",                             a:8000,  c:"implant"},
-      {d:"Medicines",                                a:3500,  c:"pharmacy"},
-    ]},
+var B=[
+  {id:"BILL-2024-001",nm:"Rahul Sharma",ag:35,ho:"Apollo Hospitals, Hyderabad",dx:"Acute Appendicitis",ps:"2022-03-01",ad:"2024-10-15",pa:true,ex:"APPROVED",lb:"Appendectomy",sb:"35 yrs · Apollo Hospitals, Hyderabad",it:[{d:"Room – General Ward (3 nights)",a:7200,c:"room_general",dy:3},{d:"Surgeon – Laparoscopic Appendectomy",a:25000,c:"44950",dy:1},{d:"Anesthesiologist Fees",a:8000,c:"00840",dy:1},{d:"Operation Theatre Charges",a:15000,c:"facility",dy:1},{d:"Post-op Medicines & Consumables",a:5500,c:"pharmacy",dy:1},{d:"Lab Tests – CBC, LFT, RFT",a:2800,c:"80048",dy:1},{d:"Ultrasound Abdomen",a:1800,c:"76700",dy:1},{d:"Nursing Charges",a:3000,c:"nursing",dy:1}]},
+  {id:"BILL-2024-002",nm:"Priya Mehta",ag:28,ho:"Fortis Hospital, Bangalore",dx:"Deviated Nasal Septum with Rhinoplasty",ps:"2023-01-01",ad:"2024-11-10",pa:true,ex:"PARTIAL",lb:"Septoplasty + Rhinoplasty",sb:"28 yrs · Fortis Hospital, Bangalore",it:[{d:"Room – Private Single Room (2 nights)",a:14000,c:"room_private",dy:2},{d:"ENT Surgeon – Septoplasty",a:30000,c:"30520",dy:1},{d:"Rhinoplasty (Cosmetic – Nose Reshaping)",a:45000,c:"30400",dy:1},{d:"Anesthesiologist Fees",a:9000,c:"00160",dy:1},{d:"Operation Theatre Charges",a:12000,c:"facility",dy:1},{d:"Medicines and Consumables",a:4200,c:"pharmacy",dy:1},{d:"CT Scan – Paranasal Sinuses",a:3500,c:"70486",dy:1}]},
+  {id:"BILL-2024-003",nm:"Arjun Patel",ag:42,ho:"Max Dental, Delhi",dx:"Dental Caries – Root Canal Treatment",ps:"2023-06-01",ad:"2024-09-05",pa:false,ex:"REJECTED",lb:"Dental – Root Canal",sb:"42 yrs · Max Dental, Delhi",it:[{d:"Root Canal Treatment – Molar",a:12000,c:"D3330",dy:1},{d:"Dental Crown – Porcelain Fused Metal",a:8000,c:"D2750",dy:1},{d:"Dental X-Ray – Panoramic (OPG)",a:1500,c:"D0330",dy:1},{d:"Consultation Fee",a:500,c:"D0140",dy:1}]},
+  {id:"BILL-2024-004",nm:"Sunita Joshi",ag:55,ho:"AIIMS, New Delhi",dx:"Viral Fever with Pneumonia",ps:"2024-10-01",ad:"2024-10-20",pa:false,ex:"REJECTED",lb:"Pneumonia – Waiting Period",sb:"55 yrs · AIIMS, New Delhi",it:[{d:"Room – General Ward (3 nights)",a:9000,c:"room_general",dy:3},{d:"Physician Consultation",a:3000,c:"99215",dy:1},{d:"IV Antibiotics and Medicines",a:8500,c:"pharmacy",dy:1},{d:"Chest X-Ray",a:800,c:"71046",dy:1},{d:"Blood Culture and CBC",a:2200,c:"87040",dy:1}]},
+  {id:"BILL-2024-005",nm:"Vikram Singh",ag:67,ho:"Manipal Hospitals, Pune",dx:"Knee Osteoarthritis – Total Knee Replacement",ps:"2021-05-01",ad:"2024-08-12",pa:true,ex:"PARTIAL",lb:"Total Knee Replacement",sb:"67 yrs · Manipal Hospitals, Pune",it:[{d:"Room – Deluxe Private Room (5 nights @ ₹8,000)",a:40000,c:"room_private",dy:5},{d:"Orthopedic Surgeon – Total Knee Replacement",a:85000,c:"27447",dy:1},{d:"Knee Implant (Titanium)",a:120000,c:"implant",dy:1},{d:"Anesthesiologist Fees",a:15000,c:"01400",dy:1},{d:"Operation Theatre Charges",a:25000,c:"facility",dy:1},{d:"ICU Charges (1 day post-operative)",a:7500,c:"icu_1day",dy:1},{d:"Physiotherapy – 5 sessions",a:4000,c:"97110",dy:5},{d:"Medicines and Consumables",a:12000,c:"pharmacy",dy:1},{d:"Lab Tests and Imaging",a:8500,c:"diagnostics",dy:1}]},
+  {id:"BILL-2024-006",nm:"Mohan Das",ag:48,ho:"Columbia Asia, Kolkata",dx:"Inguinal Hernia Repair",ps:"2023-09-01",ad:"2024-10-10",pa:true,ex:"REJECTED",lb:"Hernia – 24-Month Waiting Period",sb:"48 yrs · Columbia Asia, Kolkata",it:[{d:"Room – General Ward (2 nights)",a:4800,c:"room_general",dy:2},{d:"Surgeon – Laparoscopic Hernia Repair",a:35000,c:"49650",dy:1},{d:"Anesthesiologist Fees",a:7000,c:"00832",dy:1},{d:"Operation Theatre Charges",a:10000,c:"facility",dy:1},{d:"Mesh Implant",a:8000,c:"implant",dy:1},{d:"Medicines",a:3500,c:"pharmacy",dy:1}]}
 ];
-
-var SECTIONS = {
-  "S1.P2": {p:1,  t:"Coverage Overview"},
-  "S2.P1": {p:3,  t:"Covered Services"},
-  "S2.P2": {p:3,  t:"Benefit Sub-limits"},
-  "S3.P2": {p:6,  t:"Exclusions – Cosmetic"},
-  "S3.P3": {p:6,  t:"Exclusions – Dental"},
-  "S3.P4": {p:6,  t:"Exclusions – Maternity"},
-  "S4.P1": {p:9,  t:"Waiting Periods – Initial"},
-  "S4.P2": {p:9,  t:"Waiting Periods – Specific"},
-  "S5.P1": {p:11, t:"Pre-Authorisation"},
-  "S6.P4": {p:13, t:"Benefit Limits – Physio"},
-  "S6.P6": {p:13, t:"Benefit Limits – Implants"},
-  "S7.P1": {p:15, t:"Co-payment"},
-};
-
-function cite(id) {
-  var s = SECTIONS[id];
-  return s ? "Page "+s.p+", Section "+id.split(".")[0]+" ("+s.t+"), Para "+id : id;
+var PL={rg:3000,rp:6000,iu:6000,im:50000,ph:500,si:500000};
+var CL={"S1.P2":"Page 1 · S1 (Coverage Overview) · Para S1.P2","S2.P1":"Page 3 · S2 (Covered Services) · Para S2.P1","S2.P2":"Page 3 · S2 (Covered Services) · Para S2.P2 — Room/ICU sub-limits","S3.P2":"Page 6 · S3 (Exclusions) · Para S3.P2 — Cosmetic & Aesthetic","S3.P3":"Page 6 · S3 (Exclusions) · Para S3.P3 — Dental Treatment","S4.P1":"Page 9 · S4 (Waiting Periods) · Para S4.P1 — 30-Day Initial Waiting Period","S4.P2":"Page 9 · S4 (Waiting Periods) · Para S4.P2 — 24-Month Disease Waiting Period","S5.P1":"Page 11 · S5 (Pre-Authorization) · Para S5.P1","S6.P4":"Page 13 · S6 (Benefit Limits) · Para S6.P4 — Physiotherapy Cap","S6.P6":"Page 13 · S6 (Benefit Limits) · Para S6.P6 — Implant Sub-limit","S7.P1":"Page 15 · S7 (Co-payment) · Para S7.P1 — 10% for age ≥61"};
+function cr(id){return CL[id]||id;}
+function isDC(c){c=(c||"").toUpperCase();return c.length===5&&c[0]==="D"&&!isNaN(c.slice(1));}
+function mo(d1,d2){return(new Date(d2)-new Date(d1))/(1000*60*60*24*30.44);}
+function cat(item){
+  var d=item.d.toLowerCase(),c=(item.c||"").toLowerCase();
+  if(d.includes("room")||d.includes("ward"))return"room";
+  if(d.includes("icu"))return"icu";
+  if(d.includes("implant")||d.includes("mesh"))return"implant";
+  if(d.includes("physio")||c==="97110")return"physio";
+  if(d.includes("medicine")||d.includes("consumable")||c==="pharmacy")return"ph";
+  return"oth";
 }
-
-function inr(n) {
-  return "₹" + Math.abs(Math.round(n)).toLocaleString("en-IN");
-}
-
-function classify(item) {
-  var d = item.d.toLowerCase(), c = (item.c||"").toLowerCase();
-  if (d.includes("room")||d.includes("ward")||d.includes("accommodation")) return "room";
-  if (d.includes("icu")||d.includes("intensive care"))                       return "icu";
-  if (d.includes("implant")||d.includes("prosthetic")||d.includes("mesh"))  return "implant";
-  if (d.includes("physio")||d.includes("therapy session"))                   return "physio";
-  if (d.includes("rhinoplasty")||d.includes("cosmetic")||d.includes("nose reshaping")) return "cosmetic";
-  return "other";
-}
-
-// ─── Rule Engine ────────────────────────────────────────────────────────────
-function evaluate(bill) {
-  var POLICY = { room_gen:3000, room_prv:6000, icu_day:6000, implant:50000, physio:500, sum:500000 };
-  var dx  = bill.name.toLowerCase();
-  var all = dx + " " + bill.items.map(function(i){return i.d;}).join(" ").toLowerCase();
-  var ms  = (new Date(bill.admit) - new Date(bill.pstart)) / (1000*60*60*24*30.44);
-
-  var blocking=null, bcite=null, cites=[], notes=[];
-  function addC(id) { if (cites.indexOf(id)<0) cites.push(id); }
-
-  // Claim-level blocks (priority order)
-  if (ms < 1) {
-    var days = Math.round((new Date(bill.admit)-new Date(bill.pstart))/(1000*60*60*24));
-    blocking = "Claim falls within the 30-day initial waiting period — "+days+" days since policy inception. No hospitalisation benefit is payable.";
-    bcite="S4.P1"; addC("S4.P1");
-  }
-  if (!blocking) {
-    var wlist = ["hernia","cataract","hydrocele","varicose","sinusitis","tonsil","piles","gall stone","kidney stone","hysterectomy","bph"];
-    for (var w=0;w<wlist.length;w++) {
-      if (all.includes(wlist[w])) {
-        blocking="'"+bill.name+"' includes a condition subject to the 24-month specific disease waiting period. Policy has been active for only "+ms.toFixed(1)+" months.";
-        bcite="S4.P2"; addC("S4.P2"); break;
-      }
-    }
-  }
-  var isDental = all.includes("dental")||all.includes("root canal")||
-    bill.items.some(function(i){var c=(i.c||"").toUpperCase();return c.length===5&&c[0]==="D"&&!isNaN(c.slice(1));});
-  if (!blocking && isDental) {
-    blocking="Dental and oral treatment is categorically excluded under this policy.";
-    bcite="S3.P3"; addC("S3.P3");
-  }
-  if (!blocking && (all.includes("pregnancy")||all.includes("maternity")||all.includes("delivery"))) {
-    blocking="Maternity-related treatment is excluded under this policy."; bcite="S3.P4"; addC("S3.P4");
-  }
-
-  var decisions=[], totalA=0, totalR=0;
-
-  if (blocking) {
-    bill.items.forEach(function(item){
-      decisions.push({d:item.d,billed:item.a,approved:0,rej:item.a,dec:"REJECTED",reason:blocking,rcite:bcite});
-      totalR+=item.a;
-    });
+function eval2(bill){
+  var m=mo(bill.ps,bill.ad),dx=bill.dx.toLowerCase();
+  var allT=dx+" "+bill.it.map(function(i){return i.d;}).join(" ").toLowerCase();
+  var dec=[],tA=0,tR=0,bl=null,bc=null,cu=[],nt=[];
+  function ac(id){if(cu.indexOf(id)<0)cu.push(id);}
+  if(m<1){var d=Math.round((new Date(bill.ad)-new Date(bill.ps))/86400000);bl="Claim falls within the 30-day initial waiting period. Policy was active for only "+d+" days at the time of admission.";bc="S4.P1";ac("S4.P1");}
+  if(!bl&&m<24){var wd=["hernia","cataract","hydrocele","varicose","sinusitis","tonsil","piles","gallbladder","kidney stone","hysterectomy","bph","fibroid"];for(var w=0;w<wd.length;w++){if(allT.includes(wd[w])){bl="'"+wd[w].charAt(0).toUpperCase()+wd[w].slice(1)+"' has a 24-month waiting period. Policy was active for only "+m.toFixed(1)+" months.";bc="S4.P2";ac("S4.P2");break;}}}
+  var hd=bill.it.some(function(i){return isDC(i.c);})||dx.includes("dental")||dx.includes("root canal");
+  if(!bl&&hd){bl="Dental and oral treatment is categorically excluded. No charges in this claim are payable.";bc="S3.P3";ac("S3.P3");}
+  if(bl){
+    bill.it.forEach(function(item){dec.push({d:item.d,bi:item.a,ap:0,rj:item.a,dc:"REJECTED",re:bl,ci:bc});tR+=item.a;});
   } else {
-    if (!bill.preauth && bill.total>50000)
-      notes.push("Pre-authorisation was required for claims over ₹50,000 but was not obtained. Insurers may reduce settlement. "+cite("S5.P1"));
-
-    bill.items.forEach(function(item){
-      var a=item.a, days=(item.days||1), cat=classify(item);
-      var cpt=(item.c||"").toUpperCase();
-      var appr=a, rej=0, dec="APPROVED", reason="", rcite="S2.P1";
-
-      // Dental CPT codes
-      if (cpt.length===5&&cpt[0]==="D"&&!isNaN(cpt.slice(1))) {
-        dec="REJECTED"; appr=0; rej=a;
-        reason="Dental CPT code "+cpt+" is excluded under this policy."; rcite="S3.P3";
-      }
-      // Cosmetic
-      else if (cat==="cosmetic") {
-        dec="REJECTED"; appr=0; rej=a;
-        reason="Cosmetic/aesthetic procedures are excluded under this policy."; rcite="S3.P2";
-      }
-      // Room rent
-      else if (cat==="room") {
-        var isPriv=item.d.toLowerCase().includes("private")||item.d.toLowerCase().includes("deluxe")||item.d.toLowerCase().includes("single");
-        var cap=(isPriv?POLICY.room_prv:POLICY.room_gen)*days;
-        if (a>cap){ dec="PARTIAL"; appr=cap; rej=a-cap;
-          reason="Room rent sub-limit: ₹"+(isPriv?POLICY.room_prv:POLICY.room_gen).toLocaleString("en-IN")+"/night × "+days+" nights = "+inr(cap)+". Excess not payable."; rcite="S2.P2"; }
-      }
-      // ICU
-      else if (cat==="icu") {
-        var icuCap=POLICY.icu_day*days;
-        if (a>icuCap){ dec="PARTIAL"; appr=icuCap; rej=a-icuCap;
-          reason="ICU daily limit: ₹"+POLICY.icu_day.toLocaleString("en-IN")+"/day × "+days+" day(s). Excess not payable."; rcite="S2.P2"; }
-      }
-      // Implant
-      else if (cat==="implant") {
-        if (a>POLICY.implant){ dec="PARTIAL"; appr=POLICY.implant; rej=a-POLICY.implant;
-          reason="Implant/prosthetics sub-limit: "+inr(POLICY.implant)+" per policy year. Amount above cap not payable."; rcite="S6.P6"; }
-      }
-      // Physiotherapy
-      else if (cat==="physio") {
-        var phyCap=POLICY.physio*days;
-        if (a>phyCap){ dec="PARTIAL"; appr=phyCap; rej=a-phyCap;
-          reason="Physiotherapy cap: ₹"+POLICY.physio+"/session × "+days+" sessions = "+inr(phyCap)+". Excess not payable."; rcite="S6.P4"; }
-      }
-
-      addC(rcite);
-      decisions.push({d:item.d,billed:a,approved:appr,rej:rej,dec:dec,reason:reason,rcite:dec!=="APPROVED"?rcite:""});
-      totalA+=appr; totalR+=rej;
+    if(!bill.pa){var tot=bill.it.reduce(function(s,i){return s+i.a;},0);if(tot>50000){nt.push("Pre-authorisation was required (total > \u20b950,000) but was not obtained before admission. "+cr("S5.P1"));ac("S5.P1");}}
+    bill.it.forEach(function(item){
+      var a=item.a,dy=item.dy||1,ct=cat(item),cpt=(item.c||"").toUpperCase(),dl=item.d.toLowerCase();
+      var ap=a,rj=0,dc="APPROVED",re="",ci="S2.P1";
+      if(isDC(cpt)){dc="REJECTED";ap=0;rj=a;re="Dental billing code "+cpt+" — dental treatment is excluded.";ci="S3.P3";}
+      else if(dl.includes("rhinoplasty")||dl.includes("cosmetic")||dl.includes("nose reshaping")){dc="REJECTED";ap=0;rj=a;re="Cosmetic/aesthetic procedures are explicitly excluded under this policy.";ci="S3.P2";}
+      else if(ct==="room"){var prv=dl.includes("private")||dl.includes("single")||dl.includes("deluxe");var lm=(prv?PL.rp:PL.rg)*dy;if(a>lm){dc="PARTIAL";ap=lm;rj=a-lm;re="Room rent limit \u20b9"+(prv?PL.rp:PL.rg).toLocaleString("en-IN")+"/day \xd7 "+dy+" nights = \u20b9"+lm.toLocaleString("en-IN")+". Excess \u20b9"+(a-lm).toLocaleString("en-IN")+" not payable.";ci="S2.P2";}}
+      else if(ct==="icu"){var il=PL.iu*dy;if(a>il){dc="PARTIAL";ap=il;rj=a-il;re="ICU daily limit \u20b9"+PL.iu.toLocaleString("en-IN")+"/day \xd7 "+dy+" day(s) = \u20b9"+il.toLocaleString("en-IN")+".";ci="S2.P2";}}
+      else if(ct==="implant"){if(a>PL.im){dc="PARTIAL";ap=PL.im;rj=a-PL.im;re="Implant/prosthetics annual sub-limit is \u20b9"+PL.im.toLocaleString("en-IN")+". Excess \u20b9"+(a-PL.im).toLocaleString("en-IN")+" not covered.";ci="S6.P6";}}
+      else if(ct==="physio"){var pl2=PL.ph*dy;if(a>pl2){dc="PARTIAL";ap=pl2;rj=a-pl2;re="Physiotherapy cap \u20b9"+PL.ph.toLocaleString("en-IN")+"/session \xd7 "+dy+" sessions = \u20b9"+pl2.toLocaleString("en-IN")+".";ci="S6.P4";}}
+      ac(ci);
+      dec.push({d:item.d,bi:a,ap:ap,rj:rj,dc:dc,re:re,ci:ci!=="S2.P1"?ci:""});
+      tA+=ap;tR+=rj;
     });
-
-    // Co-payment
-    var copay=0;
-    if (bill.age>=61){ copay=Math.round(totalA*0.10); addC("S7.P1");
-      notes.push("10% co-payment applicable (patient aged "+bill.age+"): "+inr(copay)+" deducted. "+cite("S7.P1")); }
-
-    // Sum insured cap
-    if (totalA>POLICY.sum){ var excess=totalA-POLICY.sum; totalR+=excess; totalA=POLICY.sum; addC("S1.P2");
-      notes.push("Approved amount capped at policy sum insured: "+inr(POLICY.sum)+". Excess "+inr(excess)+" not payable."); }
-
-    var overall = totalA===0?"REJECTED":totalR>0?"PARTIAL":"APPROVED";
-    var net = Math.max(0,totalA-copay);
-
-    // Confidence scoring
-    var conf=100;
-    if (!bill.preauth&&bill.total>50000) conf-=12;
-    if (overall==="PARTIAL")            conf-=5;
-    var kwRej=decisions.filter(function(d){return d.dec==="REJECTED"&&d.rcite&&d.rcite.startsWith("S3");});
-    if (kwRej.length) conf-=Math.min(kwRej.length*8,16);
-
-    return {overall:overall,billed:bill.total,approved:totalA,rejected:totalR,
-            copay:copay,net:net,decisions:decisions,cites:cites,notes:notes,
-            blocking:null,conf:conf,human:conf<80};
+    var cp=0;if(bill.ag>=61){cp=Math.round(tA*0.10);nt.push("10% co-payment for patient aged "+bill.ag+" (\u226561 years). Amount deducted: \u20b9"+cp.toLocaleString("en-IN")+". "+cr("S7.P1"));ac("S7.P1");}
+    if(tA>PL.si){var ex=tA-PL.si;tR+=ex;tA=PL.si;nt.push("Approved amount capped at annual sum insured \u20b9"+PL.si.toLocaleString("en-IN")+". "+cr("S1.P2"));ac("S1.P2");}
+    var net=Math.max(0,tA-cp);
+    var ov=tA===0?"REJECTED":tR>0?"PARTIAL":"APPROVED";
+    var bi=bill.it.reduce(function(s,i){return s+i.a;},0);
+    var conf=100;if(!bill.pa&&bi>50000)conf-=10;if(dec.some(function(d){return d.dc==="PARTIAL";}))conf-=7;var kwr=dec.filter(function(d){return d.ci==="S3.P2";});if(kwr.length>0)conf-=6;conf=Math.max(0,Math.min(100,conf));
+    return{ov:ov,bi:bi,ap:tA,rj:tR,cp:cp,net:net,dec:dec,cu:cu,nt:nt,bl:null,bc:null,cf:conf,hr:conf<80};
   }
-
-  return {overall:"REJECTED",billed:bill.total,approved:0,rejected:totalR,
-          copay:0,net:0,decisions:decisions,cites:cites,notes:notes,
-          blocking:blocking,bcite:bcite,conf:100,human:false};
+  return{ov:"REJECTED",bi:bill.it.reduce(function(s,i){return s+i.a;},0),ap:0,rj:tR,cp:0,net:0,dec:dec,cu:cu,nt:nt,bl:bl,bc:bc,cf:100,hr:false};
 }
-
-// ─── Fraud Analysis ─────────────────────────────────────────────────────────
-function fraud(bill, result) {
-  var sigs=[];
-  var seen={};
-  bill.items.forEach(function(item){
-    var key=item.d.toLowerCase().replace(/[^a-z]/g,"").substr(0,20);
-    if(seen[key]) sigs.push({sev:"high",desc:"Duplicate billing: '"+item.d+"' appears more than once in this claim"});
-    else seen[key]=1;
+var NH={consultation:1500,"x-ray":800,mri:9000,"ct scan":5000,ultrasound:1200};
+function fraud(bill){
+  var sg=[],se={};
+  bill.it.forEach(function(it){var k=it.d.toLowerCase().replace(/[^a-z]/g," ").trim().split(/\s+/).slice(0,4).join(" ");if(se[k])sg.push({sv:"high",dc:"Duplicate billing: '"+it.d+"' appears more than once in the same admission."});else se[k]=true;});
+  bill.it.forEach(function(it){var dl=it.d.toLowerCase();for(var k in NH){if(dl.includes(k)){if(it.a>NH[k]*3)sg.push({sv:"high",dc:it.d+": \u20b9"+it.a.toLocaleString("en-IN")+" is "+Math.round(it.a/NH[k])+"\xd7 the NHA benchmark (\u20b9"+NH[k].toLocaleString("en-IN")+")."});else if(it.a>NH[k]*1.8)sg.push({sv:"medium",dc:it.d+": \u20b9"+it.a.toLocaleString("en-IN")+" exceeds NHA benchmark by >80% (\u20b9"+NH[k].toLocaleString("en-IN")+")."});break;}}});
+  var hI=bill.it.some(function(i){return i.d.toLowerCase().includes("icu");});
+  var dx=bill.dx.toLowerCase();
+  if(hI&&!dx.includes("intensive")&&!dx.includes("critical")&&!dx.includes("cardiac")&&!dx.includes("septic")&&!dx.includes("ventil"))sg.push({sv:"medium",dc:"ICU charges billed but stated diagnosis does not clinically indicate intensive care was required."});
+  var sc=Math.min(100,sg.reduce(function(s,g){return s+(g.sv==="high"?35:18);},0));
+  var lv=sc>=70?"high":sc>=35?"medium":"low";
+  return{lv:lv,sc:sc,sg:sg};
+}
+function INR(n){return"\u20b9"+Math.round(Math.abs(n)).toLocaleString("en-IN");}
+function tc(d){return d==="APPROVED"?"tg-gn":d==="REJECTED"?"tg-rd":"tg-am";}
+function vc(d){return d==="APPROVED"?"v-ok":d==="REJECTED"?"v-rj":"v-pa";}
+function lc(d){return d==="APPROVED"?"ok":d==="REJECTED"?"rj":"pa";}
+function apc(ld){return ld.dc==="APPROVED"?"g":ld.ap===0?"r":"a";}
+function cc(p){return p>=88?"#34d399":p>=72?"#fbbf24":"#f87171";}
+var sel=null;
+function buildList(){
+  var h="";
+  B.forEach(function(b){
+    var ia=sel&&sel.id===b.id,tot=b.it.reduce(function(s,i){return s+i.a;},0);
+    h+='<div class="bc'+(ia?" act":"")+'" onclick="pick(\''+b.id+'\')">';
+    h+='<div class="bc1"><span class="bcn">'+b.lb+'</span><span class="bca">'+INR(tot)+'</span></div>';
+    h+='<div class="bcs">'+b.sb+'</div>';
+    h+='<div class="bc3"><span class="bci">'+b.id+'</span><span class="tg '+tc(b.ex)+'">'+b.ex+'</span></div>';
+    h+='</div>';
   });
-  var benchmarks={"consultation":3000,"x-ray":1500,"mri":15000,"ct scan":8000,"ultrasound":3000};
-  bill.items.forEach(function(item){
-    for(var k in benchmarks){
-      if(item.d.toLowerCase().includes(k)&&item.a>benchmarks[k]*2.5){
-        sigs.push({sev:"high",desc:"Amount outlier: '"+item.d+"' ("+inr(item.a)+") is "+Math.round(item.a/benchmarks[k])+"× the expected maximum of "+inr(benchmarks[k])});
-        break;
-      }
-    }
+  document.getElementById("bl").innerHTML=h;
+}
+function pick(id){
+  sel=B.find(function(b){return b.id===id;});
+  buildList();setPipe(-1);
+  document.getElementById("rb").disabled=false;
+  document.getElementById("bt").textContent="Run Claim Engine";
+  document.getElementById("mn").innerHTML='<div class="empty"><div class="ei">📋</div><div class="et">'+sel.lb+'</div><div class="es">'+sel.nm+' · '+sel.sb+'<br><br>Click Run Claim Engine to adjudicate this claim.</div></div>';
+}
+function setPipe(s){for(var i=0;i<5;i++){var e=document.getElementById("ps-"+i);e.className="ps";if(s!==-1){if(i<s)e.classList.add("done");else if(i===s)e.classList.add("active");}}}
+function delay(ms){return new Promise(function(r){setTimeout(r,ms);});}
+async function run(){
+  if(!sel)return;
+  var btn=document.getElementById("rb");btn.disabled=true;btn.classList.add("spinning");document.getElementById("bt").textContent="Processing\u2026";
+  for(var s=0;s<5;s++){setPipe(s);await delay(210);}
+  var t0=performance.now();var res=eval2(sel);var fr=fraud(sel);var ms2=Math.round(performance.now()-t0);
+  await delay(60);renderD(res,fr,ms2);
+  btn.disabled=false;btn.classList.remove("spinning");document.getElementById("bt").textContent="Re-run";
+}
+function renderD(r,fr,ms2){
+  var h="";
+  h+='<div class="dh"><div><h2>'+sel.nm+'</h2><p>'+sel.ho+' &nbsp;\xb7&nbsp; '+sel.dx+'</p></div><span class="vd '+vc(r.ov)+'">'+r.ov+'</span></div>';
+  h+='<div class="ca"><strong>Note on this result:</strong> Decisions are made by a deterministic 13-rule engine — not a trained ML model. The "6/6 correct" figure means all 6 rules fired correctly on 6 synthetic labelled test cases. It is not a generalised ML accuracy metric. Real-world performance depends on bill parsing quality, policy scope, and edge-case coverage.</div>';
+  var cols=r.cp>0?5:4;
+  h+='<div class="fg" style="grid-template-columns:repeat('+cols+',1fr)">';
+  h+='<div class="fc"><div class="fl">Total billed</div><div class="fv">'+INR(r.bi)+'</div></div>';
+  h+='<div class="fc"><div class="fl">Approved</div><div class="fv g">'+INR(r.ap)+'</div></div>';
+  h+='<div class="fc"><div class="fl">Rejected</div><div class="fv r">'+INR(r.rj)+'</div></div>';
+  if(r.cp>0)h+='<div class="fc"><div class="fl">Co-payment (10%)</div><div class="fv a">'+INR(r.cp)+'</div></div>';
+  h+='<div class="fc"><div class="fl">Net payable</div><div class="fv b">'+INR(r.net)+'</div></div></div>';
+  var c=cc(r.cf);
+  h+='<div class="cr"><div><div class="cll">Decision confidence</div><div class="cn">Rule clarity score — not a model probability</div></div>';
+  h+='<div class="ct"><div class="cf" style="width:'+r.cf+'%;background:'+c+'"></div></div>';
+  h+='<div class="cp" style="color:'+c+'">'+r.cf+'%</div>';
+  if(r.hr)h+='<span class="ht">Flagged for human review</span>';
+  h+='</div>';
+  if(r.bl){h+='<div class="bb"><span style="font-size:17px;flex-shrink:0">\uD83D\uDEAB</span><div><div class="bb-tx">'+r.bl+'</div>';if(r.bc)h+='<div class="bb-ci">'+cr(r.bc)+'</div>';h+='</div></div>';}
+  r.nt.forEach(function(n){h+='<div class="nb"><span>\u2139\uFE0F</span><span>'+n+'</span></div>';});
+  h+='<div class="sl">Line item breakdown</div>';
+  h+='<div class="lit"><div class="lih"><span>Description</span><span>Billed</span><span>Approved</span><span>Status</span></div>';
+  r.dec.forEach(function(ld){
+    h+='<div class="lir '+lc(ld.dc)+'"><div class="ld">'+ld.d;
+    if(ld.re)h+='<div class="lr">'+ld.re+'</div>';
+    if(ld.ci)h+='<div class="lc">'+cr(ld.ci)+'</div>';
+    h+='</div><div class="la">'+INR(ld.bi)+'</div><div class="lap '+apc(ld)+'">'+INR(ld.ap)+'</div>';
+    h+='<div class="ltg"><span class="tg '+tc(ld.dc)+'">'+ld.dc+'</span></div></div>';
   });
-  var score=Math.min(100,sigs.reduce(function(s,sg){return s+(sg.sev==="high"?35:20);},0));
-  var level=score>=70?"HIGH":score>=40?"MEDIUM":"LOW";
-  return {level:level,score:score,signals:sigs};
+  h+='</div>';
+  h+='<div class="tc">';
+  var fc={"low":"low","medium":"medium","high":"high"}[fr.lv]||"low";
+  h+='<div><div class="sl">Fraud analysis</div><div class="fcd '+fc+'">';
+  h+='<div class="fhd"><span class="ftt">Risk: '+fr.lv.toUpperCase()+'</span><span class="fsc">'+fr.sc+'/100</span></div>';
+  if(fr.sg.length===0)h+='<div class="fn2">No fraud signals detected.</div>';
+  fr.sg.forEach(function(s){h+='<div class="fsi"><span class="ss '+s.sv+'">'+s.sv.toUpperCase()+'</span><span>'+s.dc+'</span></div>';});
+  h+='</div></div>';
+  h+='<div><div class="sl">Policy citations</div>';
+  r.cu.forEach(function(id,i){h+='<div class="ci"><span class="cn2">['+(i+1)+']</span><span>'+cr(id)+'</span></div>';});
+  h+='</div></div>';
+  h+='<div class="tm"><div class="td"></div>Rule engine: '+ms2+'ms &nbsp;\xb7&nbsp; Gemini 2.0 Flash Vision parses PDFs in production</div>';
+  document.getElementById("mn").innerHTML=h;
 }
-
-// ─── UI Helpers ─────────────────────────────────────────────────────────────
-function badgeClass(e){ return e==="APPROVED"?"badge-ok":e==="REJECTED"?"badge-rej":"badge-par"; }
-function verdictClass(e){ return e==="APPROVED"?"verdict-ok":e==="REJECTED"?"verdict-rej":"verdict-par"; }
-function bigVerdictClass(e){ return e==="APPROVED"?"verdict-ok":e==="REJECTED"?"verdict-rej":"verdict-par"; }
-function liClass(d){ return d==="APPROVED"?"ok":d==="REJECTED"?"rej":"par"; }
-function apprClass(ld){ return ld.approved===ld.billed?"green":ld.approved===0?"red":"amber"; }
-function confColor(p){ return p>=90?"var(--green)":p>=75?"var(--amber)":"var(--red)"; }
-function fraudClass(lv){ return lv.toLowerCase(); }
-function fraudScoreClass(lv){ return "fraud-card "+fraudClass(lv); }
-function sigTagClass(sev){ return "sig-tag "+sev.toLowerCase(); }
-
-var selectedBill = null;
-var PIPE_STAGES = [["📄","Input"],["👁","Vision"],["📋","Policy"],["⚖️","Rules"],["✅","Output"]];
-
-function buildPipeline(active) {
-  return PIPE_STAGES.map(function(s,i){
-    var cls = active===-1?"idle":i<active?"done":i===active?"active":"idle";
-    var arrow = i<PIPE_STAGES.length-1?'<span class="pipe-arrow">›</span>':"";
-    return '<div class="pipe-step '+cls+'"><span class="pipe-icon">'+s[0]+'</span><span class="pipe-label">'+s[1]+'</span></div>'+arrow;
-  }).join("");
-}
-
-// ─── Bill List ──────────────────────────────────────────────────────────────
-function renderList() {
-  var html = BILLS.map(function(b){
-    var cls = selectedBill&&selectedBill.id===b.id?" active":"";
-    return '<div class="bill-item'+cls+'" onclick="selectBill(\''+b.id+'\')">'+
-      '<div class="bi-top">'+
-        '<div class="bi-name">'+b.name+'</div>'+
-        '<div class="bi-amt">'+inr(b.total)+'</div>'+
-      '</div>'+
-      '<div class="bi-diag">'+b.patient+' · '+b.age+' yrs · '+b.hospital+'</div>'+
-      '<div class="bi-bottom">'+
-        '<div class="bi-id">'+b.id+'</div>'+
-        '<span class="badge '+badgeClass(b.expected)+'">'+b.expected+'</span>'+
-      '</div>'+
-    '</div>';
-  }).join("");
-  document.getElementById("bill-list").innerHTML = html;
-}
-
-function selectBill(id) {
-  selectedBill = BILLS.find(function(b){return b.id===id;});
-  renderList();
-  var btn = document.getElementById("run-btn");
-  btn.disabled = false;
-  document.getElementById("btn-label").textContent = "Run claim engine";
-  document.getElementById("btn-icon").innerHTML = '<path d="M5 3l6 4-6 4V3z" fill="currentColor"/>';
-  document.getElementById("right-content").innerHTML =
-    '<div class="right-inner"><div class="empty-state">'+
-    '<div class="empty-icon">📋</div>'+
-    '<div class="empty-title">'+selectedBill.name+'</div>'+
-    '<div class="empty-sub">'+selectedBill.patient+' · '+selectedBill.hospital+
-    '<br><br>Click <strong>Run claim engine</strong> to adjudicate this claim.</div>'+
-    '</div></div>';
-}
-
-// ─── Engine Run ──────────────────────────────────────────────────────────────
-async function runEngine() {
-  if (!selectedBill) return;
-  var btn  = document.getElementById("run-btn");
-  var icon = document.getElementById("btn-icon");
-  var lbl  = document.getElementById("btn-label");
-  btn.disabled = true;
-  btn.classList.add("running");
-  icon.innerHTML='<circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5" stroke-dasharray="8 6" fill="none"/>';
-  lbl.textContent = "Processing…";
-
-  // Animate pipeline
-  document.getElementById("right-content").innerHTML=
-    '<div class="right-inner">'+
-    '<div class="pipeline" id="pipe">'+buildPipeline(-1)+'</div>'+
-    '<div class="empty-state" style="min-height:60vh">'+
-    '<div class="empty-icon" style="animation:blink2 .8s infinite">⚙️</div>'+
-    '<div class="empty-title">Adjudicating claim…</div>'+
-    '<div class="empty-sub">Running 13 priority rules against the policy clause index.</div>'+
-    '</div></div>';
-  var style=document.createElement("style");
-  style.textContent="@keyframes blink2{0%,100%{opacity:1}50%{opacity:.3}}";
-  document.head.appendChild(style);
-
-  for (var s=0;s<=4;s++) {
-    await sleep(220);
-    var pipe=document.getElementById("pipe");
-    if(pipe) pipe.innerHTML=buildPipeline(s);
-  }
-  await sleep(150);
-
-  var t0=performance.now();
-  var result = evaluate(selectedBill);
-  var fr     = fraud(selectedBill, result);
-  var ms     = Math.round(performance.now()-t0);
-
-  btn.classList.remove("running");
-  btn.disabled=false;
-  icon.innerHTML='<path d="M5 3l6 4-6 4V3z" fill="currentColor"/>';
-  lbl.textContent="Re-run";
-
-  renderResult(result, fr, ms);
-}
-
-function sleep(ms){ return new Promise(function(r){setTimeout(r,ms);}); }
-
-// ─── Result Render ───────────────────────────────────────────────────────────
-function renderResult(r, fr, ms) {
-  var b = selectedBill;
-  var vc = verdictClass(r.overall);
-  var cc = confColor(r.conf);
-
-  var html = '<div class="right-inner">';
-
-  // Pipeline (done)
-  html += '<div class="pipeline">'+buildPipeline(5)+'</div>';
-
-  // Header
-  html += '<div class="decision-top">'+
-    '<div>'+
-      '<div class="decision-patient">'+b.patient+'</div>'+
-      '<div class="decision-meta">'+b.hospital+' &nbsp;·&nbsp; '+b.id+'</div>'+
-    '</div>'+
-    '<span class="verdict-badge '+vc+'">'+r.overall+'</span>'+
-  '</div>';
-
-  // Financial cards
-  var cols = r.copay>0?5:4;
-  var coCard = r.copay>0?'<div class="fin-card"><div class="fin-lbl">Co-payment</div><div class="fin-val amber">'+inr(r.copay)+'</div></div>':"";
-  html += '<div class="fin-row" style="grid-template-columns:repeat('+cols+',1fr)">'+
-    '<div class="fin-card"><div class="fin-lbl">Total Billed</div><div class="fin-val">'+inr(r.billed)+'</div></div>'+
-    '<div class="fin-card"><div class="fin-lbl">Approved</div><div class="fin-val green">'+inr(r.approved)+'</div></div>'+
-    '<div class="fin-card"><div class="fin-lbl">Rejected</div><div class="fin-val red">'+inr(r.rejected)+'</div></div>'+
-    coCard+
-    '<div class="fin-card"><div class="fin-lbl">Net Payable</div><div class="fin-val blue">'+inr(r.net)+'</div></div>'+
-  '</div>';
-
-  // Confidence
-  var noteLabel=r.human
-    ?'<span class="conf-note review">⚠ Human review flagged</span>'
-    :'<span class="conf-note normal">Auto-settled</span>';
-  html += '<div class="conf-strip">'+
-    '<span class="conf-lbl">Engine confidence</span>'+
-    '<div class="conf-track"><div class="conf-fill" style="width:'+r.conf+'%;background:'+cc+'"></div></div>'+
-    '<span class="conf-pct" style="color:'+cc+'">'+r.conf+'%</span>'+
-    noteLabel+
-  '</div>';
-
-  // Notes
-  if (r.notes.length) {
-    html += '<div class="notes">';
-    r.notes.forEach(function(n){ html+='<div class="note-item">'+n+'</div>'; });
-    html += '</div>';
-  }
-
-  // Block banner
-  if (r.blocking) {
-    html += '<div class="block-banner">'+
-      '<div class="block-icon">🚫</div>'+
-      '<div><div class="block-msg">'+r.blocking+'</div>'+
-      '<div class="block-cite">'+cite(r.bcite)+'</div></div>'+
-    '</div>';
-  }
-
-  // Line items
-  html += '<div class="sec-lbl">Line item breakdown</div>'+
-    '<div class="li-wrap">'+
-    '<div class="li-head"><span>Description</span><span>Billed</span><span>Approved</span><span>Status</span></div>';
-
-  r.decisions.forEach(function(ld){
-    var rc=liClass(ld.dec), ac=apprClass(ld), bc=badgeClass(ld.dec);
-    var re=ld.reason&&ld.dec!=="APPROVED"?'<div class="li-reason">'+ld.reason+'</div>':"";
-    var ci=ld.rcite&&ld.dec!=="APPROVED"?'<div class="li-cite">'+cite(ld.rcite)+'</div>':"";
-    html += '<div class="li-row '+rc+'">'+
-      '<div><div class="li-desc">'+ld.d+'</div>'+re+ci+'</div>'+
-      '<div class="li-billed">'+inr(ld.billed)+'</div>'+
-      '<div class="li-appr '+ac+'">'+inr(ld.approved)+'</div>'+
-      '<div class="li-status"><span class="badge '+bc+'">'+ld.dec+'</span></div>'+
-    '</div>';
-  });
-  html += '</div>'; // li-wrap
-
-  // Fraud + Citations side by side
-  html += '<div class="bottom-grid">';
-
-  // Fraud
-  var fcls = fr.level.toLowerCase();
-  var fscls = fr.level.toLowerCase();
-  var sigsHtml = fr.signals.length===0
-    ? '<div class="fraud-empty">No fraud signals detected.</div>'
-    : fr.signals.map(function(s){
-        return '<div class="sig-row"><span class="sig-tag '+s.sev+'">'+s.sev+'</span><span>'+s.desc+'</span></div>';
-      }).join("");
-  html += '<div>'+
-    '<div class="sec-lbl">Fraud analysis</div>'+
-    '<div class="fraud-card '+fcls+'">'+
-      '<div class="fraud-head">'+
-        '<span class="fraud-title">Risk level: '+fr.level+'</span>'+
-        '<span class="fraud-score">'+fr.score+'/100</span>'+
-      '</div>'+sigsHtml+
-    '</div></div>';
-
-  // Citations
-  html += '<div>'+
-    '<div class="sec-lbl">Policy citations</div>'+
-    '<div class="cite-list">'+
-    r.cites.map(function(id,i){
-      return '<div class="cite-item"><span class="cite-n">['+(i+1)+']</span><span>'+cite(id)+'</span></div>';
-    }).join("")+
-    '</div></div>';
-
-  html += '</div>'; // bottom-grid
-
-  // Timing
-  html += '<div class="timing"><div class="timing-dot"></div>Adjudicated in '+ms+'ms · Rule engine v2 · Gemini 2.0 Flash Vision</div>';
-
-  html += '</div>'; // right-inner
-  document.getElementById("right-content").innerHTML = html;
-}
-
-// ─── Init ────────────────────────────────────────────────────────────────────
-renderList();
+buildList();setPipe(-1);
 </script>
 </body>
 </html>
