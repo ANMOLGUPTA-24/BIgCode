@@ -1,0 +1,163 @@
+{
+  "test_cases": [
+    {
+      "bill_id": "BILL-2024-001",
+      "description": "EXPECTED: APPROVED - Standard appendectomy, no issues",
+      "hospital": "Apollo Hospitals, Hyderabad",
+      "patient": {
+        "name": "Rahul Sharma",
+        "age": 35,
+        "policy_number": "POL-HEALTH-2024-001",
+        "policy_start_date": "2022-03-01"
+      },
+      "admission_date": "2024-10-15",
+      "discharge_date": "2024-10-18",
+      "diagnosis": "Acute Appendicitis",
+      "diagnosis_codes": ["K35.80"],
+      "pre_authorization_obtained": true,
+      "pre_auth_number": "PA-2024-78231",
+      "line_items": [
+        {"description": "Room Charges - General Ward (3 nights)", "amount": 7200, "cpt_code": "room_general", "days": 3},
+        {"description": "Surgeon Fees - Laparoscopic Appendectomy", "amount": 25000, "cpt_code": "44950"},
+        {"description": "Anesthesiologist Fees", "amount": 8000, "cpt_code": "00840"},
+        {"description": "Operation Theatre Charges", "amount": 15000, "cpt_code": "facility"},
+        {"description": "Post-op Medicines & Consumables", "amount": 5500, "cpt_code": "pharmacy"},
+        {"description": "Lab Tests - CBC, LFT, RFT", "amount": 2800, "cpt_code": "80048"},
+        {"description": "Ultrasound Abdomen", "amount": 1800, "cpt_code": "76700"},
+        {"description": "Nursing Charges", "amount": 3000, "cpt_code": "nursing"}
+      ],
+      "total_billed": 68300
+    },
+    {
+      "bill_id": "BILL-2024-002",
+      "description": "EXPECTED: PARTIAL REJECT - Includes cosmetic procedure",
+      "hospital": "Fortis Hospital, Bangalore",
+      "patient": {
+        "name": "Priya Mehta",
+        "age": 28,
+        "policy_number": "POL-HEALTH-2024-001",
+        "policy_start_date": "2023-01-01"
+      },
+      "admission_date": "2024-11-10",
+      "discharge_date": "2024-11-12",
+      "diagnosis": "Deviated Nasal Septum with Rhinoplasty",
+      "diagnosis_codes": ["J34.2", "Z41.1"],
+      "pre_authorization_obtained": true,
+      "pre_auth_number": "PA-2024-91022",
+      "line_items": [
+        {"description": "Room Charges - Private Single Room (2 nights)", "amount": 14000, "cpt_code": "room_private", "days": 2},
+        {"description": "ENT Surgeon Fees - Septoplasty", "amount": 30000, "cpt_code": "30520"},
+        {"description": "Rhinoplasty (Cosmetic - Nose Reshaping)", "amount": 45000, "cpt_code": "30400"},
+        {"description": "Anesthesiologist Fees", "amount": 9000, "cpt_code": "00160"},
+        {"description": "Operation Theatre Charges", "amount": 12000, "cpt_code": "facility"},
+        {"description": "Medicines and Consumables", "amount": 4200, "cpt_code": "pharmacy"},
+        {"description": "CT Scan - Paranasal Sinuses", "amount": 3500, "cpt_code": "70486"}
+      ],
+      "total_billed": 117700
+    },
+    {
+      "bill_id": "BILL-2024-003",
+      "description": "EXPECTED: REJECTED - Dental treatment (excluded)",
+      "hospital": "Max Dental & Healthcare, Delhi",
+      "patient": {
+        "name": "Arjun Patel",
+        "age": 42,
+        "policy_number": "POL-HEALTH-2024-001",
+        "policy_start_date": "2023-06-01"
+      },
+      "admission_date": "2024-09-05",
+      "discharge_date": "2024-09-05",
+      "diagnosis": "Dental Caries with Root Canal Treatment",
+      "diagnosis_codes": ["K02.9", "K04.0"],
+      "pre_authorization_obtained": false,
+      "pre_auth_number": null,
+      "line_items": [
+        {"description": "Root Canal Treatment - Molar", "amount": 12000, "cpt_code": "D3330"},
+        {"description": "Dental Crown - Porcelain Fused Metal", "amount": 8000, "cpt_code": "D2750"},
+        {"description": "Dental X-Ray - Panoramic", "amount": 1500, "cpt_code": "D0330"},
+        {"description": "Consultation Fee", "amount": 500, "cpt_code": "D0140"}
+      ],
+      "total_billed": 22000
+    },
+    {
+      "bill_id": "BILL-2024-004",
+      "description": "EXPECTED: REJECTED - Within initial 30-day waiting period",
+      "hospital": "AIIMS, New Delhi",
+      "patient": {
+        "name": "Sunita Joshi",
+        "age": 55,
+        "policy_number": "POL-HEALTH-2024-001",
+        "policy_start_date": "2024-10-01"
+      },
+      "admission_date": "2024-10-20",
+      "discharge_date": "2024-10-23",
+      "diagnosis": "Viral Fever with Pneumonia",
+      "diagnosis_codes": ["J18.9", "B34.9"],
+      "pre_authorization_obtained": false,
+      "pre_auth_number": null,
+      "line_items": [
+        {"description": "Room Charges - General Ward (3 nights)", "amount": 9000, "cpt_code": "room_general", "days": 3},
+        {"description": "Physician Consultation", "amount": 3000, "cpt_code": "99215"},
+        {"description": "IV Antibiotics and Medicines", "amount": 8500, "cpt_code": "pharmacy"},
+        {"description": "Chest X-Ray", "amount": 800, "cpt_code": "71046"},
+        {"description": "Blood Culture and CBC", "amount": 2200, "cpt_code": "87040"}
+      ],
+      "total_billed": 23500
+    },
+    {
+      "bill_id": "BILL-2024-005",
+      "description": "EXPECTED: ROOM RENT EXCESS + APPROVED REMAINING - Private room exceeds limit",
+      "hospital": "Manipal Hospitals, Pune",
+      "patient": {
+        "name": "Vikram Singh",
+        "age": 67,
+        "policy_number": "POL-HEALTH-2024-001",
+        "policy_start_date": "2021-05-01"
+      },
+      "admission_date": "2024-08-12",
+      "discharge_date": "2024-08-17",
+      "diagnosis": "Knee Osteoarthritis requiring Total Knee Replacement",
+      "diagnosis_codes": ["M17.11"],
+      "pre_authorization_obtained": true,
+      "pre_auth_number": "PA-2024-54321",
+      "line_items": [
+        {"description": "Room Charges - Deluxe Private Room (5 nights @ INR 8000/night)", "amount": 40000, "cpt_code": "room_private", "days": 5},
+        {"description": "Orthopedic Surgeon Fees - Total Knee Replacement", "amount": 85000, "cpt_code": "27447"},
+        {"description": "Knee Implant (Titanium)", "amount": 120000, "cpt_code": "implant"},
+        {"description": "Anesthesiologist Fees", "amount": 15000, "cpt_code": "01400"},
+        {"description": "Operation Theatre Charges", "amount": 25000, "cpt_code": "facility"},
+        {"description": "ICU Charges (1 day)", "amount": 7500, "cpt_code": "icu_1day"},
+        {"description": "Physiotherapy (5 sessions)", "amount": 4000, "cpt_code": "97110"},
+        {"description": "Medicines and Consumables", "amount": 12000, "cpt_code": "pharmacy"},
+        {"description": "Lab Tests and Imaging", "amount": 8500, "cpt_code": "diagnostics"}
+      ],
+      "total_billed": 317000
+    },
+    {
+      "bill_id": "BILL-2024-006",
+      "description": "EXPECTED: REJECTED - Hernia in 24-month waiting period",
+      "hospital": "Columbia Asia Hospital, Kolkata",
+      "patient": {
+        "name": "Mohan Das",
+        "age": 48,
+        "policy_number": "POL-HEALTH-2024-001",
+        "policy_start_date": "2023-09-01"
+      },
+      "admission_date": "2024-10-10",
+      "discharge_date": "2024-10-12",
+      "diagnosis": "Inguinal Hernia Repair",
+      "diagnosis_codes": ["K40.90"],
+      "pre_authorization_obtained": true,
+      "pre_auth_number": "PA-2024-66543",
+      "line_items": [
+        {"description": "Room Charges - General Ward (2 nights)", "amount": 4800, "cpt_code": "room_general", "days": 2},
+        {"description": "Surgeon Fees - Laparoscopic Hernia Repair", "amount": 35000, "cpt_code": "49650"},
+        {"description": "Anesthesiologist Fees", "amount": 7000, "cpt_code": "00832"},
+        {"description": "Operation Theatre Charges", "amount": 10000, "cpt_code": "facility"},
+        {"description": "Mesh Implant", "amount": 8000, "cpt_code": "implant"},
+        {"description": "Medicines", "amount": 3500, "cpt_code": "pharmacy"}
+      ],
+      "total_billed": 68300
+    }
+  ]
+}

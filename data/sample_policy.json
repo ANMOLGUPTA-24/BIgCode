@@ -1,0 +1,230 @@
+{
+  "policy_id": "POL-HEALTH-2024-001",
+  "policy_name": "HealthGuard Premium Plan",
+  "insurer": "SecureLife Insurance Ltd.",
+  "version": "2024-v2",
+  "effective_date": "2024-01-01",
+  "sections": [
+    {
+      "section_id": "S1",
+      "page": 1,
+      "title": "Coverage Overview",
+      "paragraphs": [
+        {
+          "para_id": "S1.P1",
+          "text": "This policy provides comprehensive health insurance coverage for hospitalization, surgical procedures, and diagnostic tests as outlined in the subsequent sections. All benefits are subject to the terms, conditions, exclusions, and waiting periods detailed herein."
+        },
+        {
+          "para_id": "S1.P2",
+          "text": "The maximum sum insured under this policy is INR 5,00,000 (Five Lakhs) per policy year per insured person. All claims are subject to this annual limit."
+        }
+      ]
+    },
+    {
+      "section_id": "S2",
+      "page": 3,
+      "title": "Covered Services and Benefits",
+      "paragraphs": [
+        {
+          "para_id": "S2.P1",
+          "text": "In-patient hospitalization expenses are covered when the insured person is admitted for a minimum period of 24 consecutive hours. Covered expenses include: room rent, nursing charges, surgeon fees, anesthesiologist fees, ICU charges, and prescribed medicines during hospitalization."
+        },
+        {
+          "para_id": "S2.P2",
+          "text": "Room rent is limited to INR 3,000 per day for general ward and INR 6,000 per day for single private room. ICU charges are covered up to INR 6,000 per day. Any excess over these limits shall be borne by the insured."
+        },
+        {
+          "para_id": "S2.P3",
+          "text": "Pre-hospitalization expenses incurred up to 30 days prior to admission and post-hospitalization expenses incurred up to 60 days after discharge are covered, subject to the claim being admissible."
+        },
+        {
+          "para_id": "S2.P4",
+          "text": "Day-care procedures that do not require 24-hour hospitalization due to technological advancement are covered. A list of 541 approved day-care procedures is annexed as Schedule A to this policy."
+        },
+        {
+          "para_id": "S2.P5",
+          "text": "Ambulance charges are covered up to INR 2,000 per hospitalization event for transport to the nearest appropriate hospital."
+        },
+        {
+          "para_id": "S2.P6",
+          "text": "Organ donor expenses for harvesting of organ in case of organ transplant to the insured are covered up to 50% of sum insured."
+        }
+      ]
+    },
+    {
+      "section_id": "S3",
+      "page": 6,
+      "title": "Exclusions — Conditions Not Covered",
+      "paragraphs": [
+        {
+          "para_id": "S3.P1",
+          "text": "Pre-existing diseases and conditions are not covered for the first 36 months from the policy inception date. Pre-existing disease means any condition, ailment, injury or related condition(s) for which the insured had signs or symptoms, or was diagnosed, or received medical advice or treatment within 48 months prior to the first policy commencement date."
+        },
+        {
+          "para_id": "S3.P2",
+          "text": "Cosmetic or aesthetic treatments of any description, including but not limited to rhinoplasty, liposuction, face lifts, hair transplants, and treatment for obesity or weight control programs, are not covered under this policy."
+        },
+        {
+          "para_id": "S3.P3",
+          "text": "Dental treatment or surgery of any kind, including dental implants, orthodontic treatment, and periodontal surgery, is excluded unless arising from accidental injury to natural teeth requiring hospitalization."
+        },
+        {
+          "para_id": "S3.P4",
+          "text": "Expenses related to pregnancy, childbirth, miscarriage, abortion, and its complications are not covered under this policy. Maternity benefits are available only under the optional Maternity Rider, if separately purchased."
+        },
+        {
+          "para_id": "S3.P5",
+          "text": "Treatment of mental disorders, psychiatric conditions, psychosomatic diseases, Alzheimer's disease, Parkinson's disease, and other neurodegenerative disorders are not covered."
+        },
+        {
+          "para_id": "S3.P6",
+          "text": "Any treatment necessitated due to participation in hazardous sports or activities including but not limited to mountaineering, skydiving, motor racing, and bungee jumping is excluded."
+        },
+        {
+          "para_id": "S3.P7",
+          "text": "Experimental treatments, unproven medical procedures, and treatments not recognized by the Indian Medical Council are not covered."
+        },
+        {
+          "para_id": "S3.P8",
+          "text": "Vitamins, tonics, health supplements, and non-prescription drugs unless prescribed as part of a treatment plan for a covered condition are not reimbursable."
+        },
+        {
+          "para_id": "S3.P9",
+          "text": "Treatment of Acquired Immune Deficiency Syndrome (AIDS), HIV infection, and any AIDS-related complex (ARC) or disease is excluded."
+        },
+        {
+          "para_id": "S3.P10",
+          "text": "Alcoholism, drug abuse, and self-inflicted injuries are not covered under this policy."
+        }
+      ]
+    },
+    {
+      "section_id": "S4",
+      "page": 9,
+      "title": "Waiting Periods",
+      "paragraphs": [
+        {
+          "para_id": "S4.P1",
+          "text": "Initial Waiting Period: No claim shall be payable for any illness or disease during the first 30 days from the policy inception date, except for claims arising from accidental injuries."
+        },
+        {
+          "para_id": "S4.P2",
+          "text": "Specific Disease Waiting Period: The following conditions are not covered during the first 24 months of the policy: Cataract, Benign Prostatic Hypertrophy (BPH), Hernia of all types, Hydrocele, Varicose veins, Non-infective Arthritis, Sinusitis, Tonsils, Piles, Gall Bladder Stones, Kidney Stones, and Hysterectomy."
+        },
+        {
+          "para_id": "S4.P3",
+          "text": "Pre-existing Disease Waiting Period: As defined in Section S3.P1, pre-existing diseases are subject to a 36-month waiting period."
+        }
+      ]
+    },
+    {
+      "section_id": "S5",
+      "page": 11,
+      "title": "Pre-Authorization Requirements",
+      "paragraphs": [
+        {
+          "para_id": "S5.P1",
+          "text": "Pre-authorization from the insurer is mandatory for all planned (elective) surgical procedures, organ transplants, joint replacement surgeries, cardiac procedures including angioplasty and bypass surgery, cancer treatments, and any treatment exceeding INR 50,000."
+        },
+        {
+          "para_id": "S5.P2",
+          "text": "For emergency hospitalizations, pre-authorization must be obtained within 24 hours of admission. Failure to obtain pre-authorization for non-emergency procedures may result in the claim being rejected or settled at 50% of the admissible amount."
+        },
+        {
+          "para_id": "S5.P3",
+          "text": "Pre-authorization requests must be submitted along with: treating doctor's certificate, proposed line of treatment, estimated cost breakdown, and patient's valid photo ID and policy document."
+        }
+      ]
+    },
+    {
+      "section_id": "S6",
+      "page": 13,
+      "title": "Benefit Limits and Sub-limits",
+      "paragraphs": [
+        {
+          "para_id": "S6.P1",
+          "text": "Cataract surgery: Covered up to INR 40,000 per eye per policy year, subject to the 24-month waiting period defined in Section S4.P2."
+        },
+        {
+          "para_id": "S6.P2",
+          "text": "Hernia repair: Covered up to INR 60,000 per incident, subject to the 24-month waiting period defined in Section S4.P2."
+        },
+        {
+          "para_id": "S6.P3",
+          "text": "Dialysis: Covered up to INR 1,000 per session, maximum 156 sessions per policy year."
+        },
+        {
+          "para_id": "S6.P4",
+          "text": "Physiotherapy: Covered up to INR 500 per session, maximum 30 sessions per policy year, only when prescribed post-surgical hospitalization."
+        },
+        {
+          "para_id": "S6.P5",
+          "text": "Diagnostic tests (lab and imaging): Covered at 100% when conducted as part of in-patient treatment. Out-patient diagnostic tests are not covered unless specifically related to the pre/post hospitalization period defined in Section S2.P3."
+        },
+        {
+          "para_id": "S6.P6",
+          "text": "Prosthetics and implants: Covered at actual cost up to INR 50,000 per policy year when implanted during a covered surgical procedure."
+        }
+      ]
+    },
+    {
+      "section_id": "S7",
+      "page": 15,
+      "title": "Deductible and Co-payment",
+      "paragraphs": [
+        {
+          "para_id": "S7.P1",
+          "text": "A mandatory co-payment of 10% of the admissible claim amount applies to all claims made by insured persons aged 61 years and above at the time of hospitalization."
+        },
+        {
+          "para_id": "S7.P2",
+          "text": "For insured persons below 61 years of age, no co-payment is applicable unless specifically mentioned in the policy schedule."
+        },
+        {
+          "para_id": "S7.P3",
+          "text": "A deductible of INR 5,000 applies to all out-patient claims. For in-patient claims, no deductible is applicable."
+        }
+      ]
+    }
+  ],
+  "covered_procedure_codes": [
+    "Z51.1", "Z51.11", "Z51.12", "85610", "80048", "71046", "99213",
+    "99214", "99215", "27447", "27487", "43239", "47562", "66984",
+    "43239", "99291", "99292", "36415", "71250", "74177", "70553"
+  ],
+  "excluded_procedure_codes": [
+    "15822", "15823", "17380", "11755", "21120", "00100", "D0150",
+    "D1110", "D7210", "99401", "90837"
+  ],
+  "preauth_required_procedures": [
+    "27447", "27487", "33533", "33534", "92920", "38240",
+    "00300", "00400", "00630", "organ_transplant"
+  ],
+  "benefit_limits": {
+    "room_rent_general": 3000,
+    "room_rent_private": 6000,
+    "icu_daily": 6000,
+    "ambulance": 2000,
+    "cataract_per_eye": 40000,
+    "hernia_repair": 60000,
+    "dialysis_per_session": 1000,
+    "dialysis_max_sessions": 156,
+    "physiotherapy_per_session": 500,
+    "physiotherapy_max_sessions": 30,
+    "prosthetics_implants": 50000,
+    "total_sum_insured": 500000
+  },
+  "waiting_period_diseases": [
+    "cataract", "benign prostatic hypertrophy", "bph", "hernia", "hydrocele",
+    "varicose veins", "arthritis", "sinusitis", "tonsils", "piles", 
+    "gall bladder stones", "kidney stones", "hysterectomy"
+  ],
+  "excluded_conditions": [
+    "cosmetic", "aesthetic", "rhinoplasty", "liposuction", "obesity",
+    "dental", "orthodontic", "pregnancy", "childbirth", "maternity",
+    "mental disorder", "psychiatric", "alzheimer", "parkinson",
+    "hazardous sport", "experimental", "unproven", "vitamins", "supplements",
+    "aids", "hiv", "alcohol", "drug abuse", "self-inflicted", "hair transplant",
+    "face lift", "weight loss"
+  ]
+}
